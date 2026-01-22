@@ -2,11 +2,14 @@ FROM node:20-alpine
 
 WORKDIR /app
 
+# Install build dependencies needed for some npm packages
+RUN apk add --no-cache python3 make g++
+
 # Copy package files
 COPY package*.json ./
 
-# Install dependencies
-RUN npm install --production=false
+# Install dependencies with ignore-scripts to skip build scripts
+RUN npm install --ignore-scripts
 
 # Copy source code
 COPY . .
